@@ -1,10 +1,13 @@
 import json
 import sys
+sys.path.append('..')
 
-import ntlk
+import nltk
 from afinn import Afinn
 
-from ..Indexer import Tokenizer
+from Indexer import Indexer
+from Indexer import Tokenizer
+from Indexer import Tools
 
 
 class Ranker(object):
@@ -16,7 +19,7 @@ class Ranker(object):
         afinn = Afinn()
         tokens = Tokenizer.tokenize(document)
         sentiment = 0
-        for token in tokens :
+        for token in tokens:
             sentiment += afinn.score(token)
         return sentiment
 
@@ -24,6 +27,6 @@ class Ranker(object):
         afinn = Afinn()
         querytokens = Tokenizer.tokenize(query)
         sentiment = 0
-        for token in querytokens :
+        for token in querytokens:
             sentiment += afinn.score(token)
         return sentiment
