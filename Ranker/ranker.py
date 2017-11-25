@@ -4,7 +4,7 @@ import sys
 import ntlk
 from afinn import Afinn
 
-from ..Tokenizer import Tokenizer
+from ..Indexer import Tokenizer
 
 
 class Ranker(object):
