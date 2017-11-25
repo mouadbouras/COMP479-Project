@@ -6,17 +6,20 @@ Web Crawler / Indexer / Search engine
 
 Install nltk
 
->> pip install nltk
+- pip install nltk
 
->> python 
->> import nltk 
->> nltk.doanload("stopwords")
->> nltk.download('punkt')
+- python 
+
+- import nltk 
+
+- nltk.doanload('stopwords')
+
+- nltk.download('punkt')
 
 Install afinn 
 
->> pip install afinn 
+- pip install afinn 
 
 Install Beautiful Soup 4
 
->> pip install beautifulsoup4
+- pip install beautifulsoup4
