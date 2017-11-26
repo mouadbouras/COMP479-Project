@@ -11,6 +11,7 @@ from Indexer import Tokenizer
 from Indexer import Tools
 
 from collections import OrderedDict
+from operator import itemgetter
 
 
 class Ranker(object):
@@ -18,6 +19,22 @@ class Ranker(object):
     def open_json(index_file):
         data = Tools.loadDictionary(index_file)
         return data
+
+    # rank by sentiment
+    # if sentiment(query) >= 0 : rank docs from positive to negative
+    # else : rank docs from negative to positive
+    def rank_by_sentiment(query, docweights, files):
+        querysentiment = Tools.sentiment(query)
+        docsentiments = {}
+        ordereddocs = OrderedDict()
+        for k in docweights.keys():
+            doc = Tools.getDocById(k, files)
+            docsentiments[k] = Tools.sentiment(doc)
+        if querysentiment >= 0:
+            ordereddocs = sorted(docsentiments, key=itemgetter(1), reverse=True)
+        else:
+            ordereddocs = sorted(docsentiments, key=itemgetter(1))
+        return ordereddocs
         
     # docs = only docs returned by query result, not everything in the index
     # recalculates tf for every doc, not sure whether to adjust
