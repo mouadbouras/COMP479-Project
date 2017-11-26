@@ -7,6 +7,7 @@ from collections import defaultdict
 from math import log
 from nltk.corpus import stopwords
 import codecs, sys, glob, os, unicodedata
+import io
 
 
 
@@ -38,8 +39,11 @@ class Indexer(object):
         
     def index_file(filename):
         tokens = []
-        with open("./" + filename) as fp:
-            data = fp.read()    
+        # with open("./" + filename) as fp:
+        #     data = fp.read()
+        with io.open("../Dumps/" + filename, "r", encoding="utf-8") as fp:
+            data = fp.read()        
+        # print(data)
         soup = BeautifulSoup(data, "xml")
         documents = soup.find_all("document")
         for document in documents:
@@ -73,7 +77,7 @@ class Indexer(object):
             # if(length != len(postings_list)): 
             #     postingCount = postingCount + 1
 
-        return dictionary;
+        return dictionary
 
 
 
@@ -118,16 +122,16 @@ class Tools(object):
 
     #merge blocks
     def mergeFiles(fileCount):
-        with open("FinalDictionary.json", 'w') as final:         
+        with open("../FinalDictionary.json", 'w') as final:         
             final.write("{}")   
         for i in range(0,fileCount):
             print(i)  
             with open("Minidict"+str(i)+".json") as file1:
                 data1 = json.load(file1)  
-            with open("FinalDictionary.json") as file2:
+            with open("../FinalDictionary.json") as file2:
                 data2 = json.load(file2)     
             data3 = Tools.mergeDicts(data1,data2)           
-            with open("FinalDictionary.json", 'w') as final:         
+            with open("../FinalDictionary.json", 'w') as final:         
                 final.write(json.dumps(data3,sort_keys=True))        
 
     def mergeDicts(dict1,dict2):
@@ -164,7 +168,7 @@ class Tools(object):
 
     def getDocById(docId, files):
         for filename in files :
-            with open("./" + filename) as fp:
+            with open("../Dumps/" + filename) as fp:
                 data = fp.read()    
             soup = BeautifulSoup(data, "xml")
             documents = soup.find_all("document")
@@ -177,7 +181,7 @@ class Tools(object):
     def getDocCount (files):
         docCount = 0
         for filename in files :
-            with open("./" + filename) as fp:
+            with open("../Dumps/"  + filename) as fp:
                 data = fp.read()    
             soup = BeautifulSoup(data, "xml")
             documents = soup.find_all("document")    

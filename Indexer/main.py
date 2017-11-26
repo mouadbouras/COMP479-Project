@@ -1,7 +1,7 @@
 from Indexer import Indexer
         
 
-Indexer.index_files(["input.txt"],True)
+Indexer.index_files(["1.txt"],True)
 
 
 # for z in range (0,22):

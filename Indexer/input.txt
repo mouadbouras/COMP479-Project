@@ -1,8 +1,0 @@
-
-<documents>
-<document id="1" url="www.1.com"> Hello Mr. abandon Smith, how are you doing today? The weather is great, and Python is awesome. The sky is pinkish-blue. You shouldn't eat cardboard. george-bush </document>
-<document id="2" url="www.1.com"> Hello Mr. Smith, how are you doing ? The weather is great, and Python is awesome. The sky is pinkish-blue. You shouldn't eat cardboard. george-bush </document>
-<document id="3" url="www.1.com"> Hello Mr. Smith, abandon how are you doing today? The weather is great, and Python is awesome. The sky is pinkish-blue. You shouldn't eat cardboard. george-bush </document>
-<document id="4" url="www.1.com"> Hello Mr. Smith, how are you doing ? The weather is great, and Python is awesome. The sky is pinkish-blue. You shouldn't eat cardboard. george-bush </document>
-<document id="5" url="www.1.com"> Hello Mr. Smith, abandon how are you doing today? The weather is great, and Python is awesome. The sky is pinkish-blue. You shouldn't eat cardboard. george-bush </document>
-</documents>
