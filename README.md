@@ -23,3 +23,7 @@ Install afinn
 Install Beautiful Soup 4
 
 - pip install beautifulsoup4
+
+Install html2text
+
+- pip install html2text
