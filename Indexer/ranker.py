@@ -16,6 +16,7 @@ class Ranker(object):
 
     def open_json(index_file):
         data = Tools.loadDictionary(index_file)
+        return data
         
     # docs = only docs returned by query result, not everything in the index
     # recalculates tf for every doc, not sure whether to adjust
@@ -42,3 +43,35 @@ class Ranker(object):
         for token in querytokens:
             sentiment += afinn.score(token)
         return sentiment
+
+
+    #returns dictionary of {term : [doclist]} for each query term 
+    def get_query_docs(query, index):
+        querytokens = Tokenizer.tokenize(query)
+        result = {}
+        for word in querytokens:
+            result[word] = index[word][0]
+        return result
+
+    #takes the dictionary of {term : [doclist]} then for each docID of each query it calculates the Tf-Idf
+    def rank_results(query_result, index, files, topx):
+        ranking = {}
+        for term in query_result :
+            ranking[term] = []
+            for doc in query_result[term] :
+                # print(doc)
+                tmp = [] 
+                tmp.append(doc)
+                tmp.append(Tools.tf_idf(term,doc,index , files ))
+                ranking[term].append(tmp)
+                # print(ranking)
+        return ranking 
+    
+
+
+
+
+
+
+
+

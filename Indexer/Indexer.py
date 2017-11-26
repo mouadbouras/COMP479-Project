@@ -168,7 +168,7 @@ class Tools(object):
 
     def getDocById(docId, files):
         for filename in files :
-            with open("../Dumps/" + filename) as fp:
+            with io.open("../Dumps/" + filename, "r", encoding="utf-8") as fp:
                 data = fp.read()    
             soup = BeautifulSoup(data, "xml")
             documents = soup.find_all("document")
@@ -181,7 +181,7 @@ class Tools(object):
     def getDocCount (files):
         docCount = 0
         for filename in files :
-            with open("../Dumps/"  + filename) as fp:
+            with io.open("../Dumps/"  + filename, "r", encoding="utf-8") as fp:
                 data = fp.read()    
             soup = BeautifulSoup(data, "xml")
             documents = soup.find_all("document")    
@@ -205,7 +205,7 @@ class Tools(object):
         return tf*idf
 
     def loadDictionary(filename):
-        with open(filename) as f:
+        with open("../"  +filename) as f:
             dictionary = json.load(f)  
         return dictionary
 
