@@ -1,26 +1,49 @@
 from Indexer import Indexer
+from ranker import Ranker
+from Indexer import Tools
+
+
+def demo(index,files) : 
+    
+    while True :
+        query = input("Please enter search query: ")
+        print ("you entered", query)
+        if(query == "exit;") : break
+        #************************************************************
+        #DO SOMETHING WITH THE QUERY HERE
+        #Example : 
+
+        result = Ranker.exec_query("Alumni alumni", index, files) 
+
+        #************************************************************
         
 
-Indexer.index_files(["1.txt"],True)
+        #************************************************************
+        #PRINT RESULTS HERE
+        #Example : 
+        
+        print(result[1])
+
+        #************************************************************
 
 
-# for z in range (0,22):
-#     ss = ""
-#     if z < 10: ss = "0"
-#     with open("./reuters21578/reut2-0"+ss+str(z)+".sgm") as fp:
-#         data = fp.read()    
-#         data = data[:35] + "<ROOT>" + data[35:] + "</ROOT>"
-#     soup = BeautifulSoup(data, "xml")
+#************************************************************
+#REQUIRED INITIAL VARAIABLES : 
 
-#     reuters = soup.find_all('REUTERS')
+index = Ranker.open_json("FinalDictionary.json")
+files = ["1.txt","2.txt"]
 
-#     for j in range (0 , len(reuters)):
-#         id = int(reuters[j]["NEWID"])
-#         # print(reuters[j].BODY)
-#         if not reuters[j].BODY : continue  
-#         title =  reuters[j].TITLE                 
-#         body = reuters[j].BODY
-#         # print(body.string)
-#         s = title.string.strip()
-#         s += " " + body.string.strip()
-#         tokens.extend(tokenize(s,id))
+#************************************************************
+
+
+#************************************************************
+#RUN THE DEMO : 
+
+demo(index,files)
+
+#************************************************************
+
+
+
+
+

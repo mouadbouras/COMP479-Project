@@ -1,6 +1,7 @@
 import json
 import sys
 # sys.path.append('..')
+import operator
 
 import nltk
 from afinn import Afinn
@@ -54,7 +55,7 @@ class Ranker(object):
         return result
 
     #takes the dictionary of {term : [doclist]} then for each docID of each query it calculates the Tf-Idf
-    def rank_results(query_result, index, files, topx):
+    def rank_results(query_result, index, files):
         ranking = []
         # ranking = {} --> per term
         for term in query_result :
@@ -66,18 +67,28 @@ class Ranker(object):
                 tmp.append(Tools.tf_idf(term,doc,index , files ))
                 # ranking[term].append(tmp)--> per term
                 ranking.append(tmp)
+                
 
         return ranking 
     
+    #this function executes the query and returns an UNORDERD dictionary {docid : grade, docid : grade, docid : grade } 
+    # as well as an ORDERED list of tuples [(docid,grade),(docid,grade),(docid,grade)] ASCENDING
 
-    def exec_query(query,index,files, topx):
-        query_result = get_query_docs(query, index)
-        ranked_results = rank_resultss(query_result, index, files, topx)
-        #working on this
+    def exec_query(query,index,files):
+        query_result = Ranker.get_query_docs(query, index)
+        ranked_results = Ranker.rank_results(query_result, index, files )
+        final_dict = {}
+        for result in ranked_results :
+            if result[0] in final_dict:
+                if final_dict[result[0]] < result[1] : 
+                    final_dict[result[0]] = result[1]
+            else : 
+                final_dict[result[0]]=result[1]
 
+        RankedKeys =  sorted(final_dict.items(), key=operator.itemgetter(1))
 
-
-
+        return [final_dict,RankedKeys]
+        
 
 
 
