@@ -55,18 +55,25 @@ class Ranker(object):
 
     #takes the dictionary of {term : [doclist]} then for each docID of each query it calculates the Tf-Idf
     def rank_results(query_result, index, files, topx):
-        ranking = {}
+        ranking = []
+        # ranking = {} --> per term
         for term in query_result :
-            ranking[term] = []
+            # ranking ranking[term] = []--> per term
             for doc in query_result[term] :
                 # print(doc)
                 tmp = [] 
                 tmp.append(doc)
                 tmp.append(Tools.tf_idf(term,doc,index , files ))
-                ranking[term].append(tmp)
-                # print(ranking)
+                # ranking[term].append(tmp)--> per term
+                ranking.append(tmp)
+
         return ranking 
     
+
+    def exec_query(query,index,files, topx):
+        query_result = get_query_docs(query, index)
+        ranked_results = rank_resultss(query_result, index, files, topx)
+        #working on this
 
 
 
