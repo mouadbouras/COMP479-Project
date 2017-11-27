@@ -47,7 +47,6 @@ class Ranker(object):
             ordereddocs = sorted(docsentiments, )
         return ordereddocs
 
-
     def rank_by_sentiment(query, query_result, files):
         print(query_result)
         pos = []
@@ -83,6 +82,7 @@ class Ranker(object):
                 termweights[term] = Tools.tf_idf(term, docId, index, files)
         sortedweights = OrderedDict(sorted(termweights.values))
         return sortedweights
+
 
     #returns dictionary of {term : [doclist]} for each query term 
     def get_query_docs(query, index):
