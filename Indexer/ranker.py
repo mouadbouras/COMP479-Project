@@ -46,18 +46,6 @@ class Ranker(object):
         else:
             ordereddocs = sorted(docsentiments, key=itemgetter(1))
         return ordereddocs
-        
-    # docs = only docs returned by query result, not everything in the index
-    # recalculates tf for every doc, not sure whether to adjust
-    def rank_docs_tfidf(query, index, docs, files, topx):
-        termweights = {}
-        querytokens = Tokenizer.tokenize(query)
-        for doc in docs:
-            docId = Tools.getDocId(doc)
-            for term in querytokens:
-                termweights[term] = Tools.tf_idf(term, docId, index, files)
-        sortedweights = OrderedDict(sorted(termweights.values))
-        return sortedweights
 
     #returns dictionary of {term : [doclist]} for each query term 
     def get_query_docs(query, index):
