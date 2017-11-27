@@ -3,7 +3,7 @@ from ranker import Ranker
 from Indexer import Tools
 
 
-def demo(index,files) : 
+def demo(index,files, topx) : 
     
     while True :
         query = input("Please enter search query: ")
@@ -17,13 +17,13 @@ def demo(index,files) :
 
         #************************************************************
         # Call ranking class to organize results
-        resultIDs = Ranker.do_ranking(query, result, files)
+        resultIDs = Ranker.do_ranking(query, result[0], files, topx)
 
         #************************************************************
         #PRINT RESULTS HERE
         #Example : 
         
-        print(result[1])
+        print(resultIDs)
 
         #************************************************************
 
@@ -33,6 +33,7 @@ def demo(index,files) :
 
 index = Ranker.open_json("FinalDictionary.json")
 files = ["1.txt","2.txt"]
+topx = 50
 
 #************************************************************
 
@@ -40,7 +41,7 @@ files = ["1.txt","2.txt"]
 #************************************************************
 #RUN THE DEMO : 
 
-demo(index,files)
+demo(index,files, topx)
 
 #************************************************************
 

@@ -15,8 +15,16 @@ from operator import itemgetter
 
 class Ranker(object):
 
-    def do_ranking(query, result, files):
-        rankedresults = Ranker.rank_by_sentiment(query, result[0], files)
+    # calls function to rank results by sentiment
+    # limits number of results to amount passed in topx 
+    def do_ranking(query, result, files, topx):
+        rankedresults = Ranker.rank_by_sentiment(query, result, files)
+        itemcnt = 0
+        for k in rankedresults:
+            if itemcnt >= topx:
+                rankedresults.pop(k)
+            itemcnt += 1
+
         return rankedresults
 
     def open_json(index_file):
@@ -49,12 +57,6 @@ class Ranker(object):
             for term in querytokens:
                 termweights[term] = Tools.tf_idf(term, docId, index, files)
         sortedweights = OrderedDict(sorted(termweights.values))
-        itemcnt = 0
-        # move to calling function
-        for k, v in sortedweights.items():
-            if itemcnt >= topx:
-                sortedweights.pop(k)
-            itemcnt += 1
         return sortedweights
 
     #returns dictionary of {term : [doclist]} for each query term 
