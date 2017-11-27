@@ -14,6 +14,7 @@ from collections import OrderedDict
 from operator import itemgetter
 
 
+
 class Ranker(object):
 
     def open_json(index_file):
@@ -68,7 +69,9 @@ class Ranker(object):
         querytokens = Tokenizer.tokenize(query)
         result = {}
         for word in querytokens:
-            result[word] = index[word][0]
+            # print(word in index)
+            if word in index:
+                result[word] = index[word][0]
         return result
 
     #takes the dictionary of {term : [doclist]} then for each docID of each query it calculates the Tf-Idf
@@ -102,7 +105,7 @@ class Ranker(object):
             else : 
                 final_dict[result[0]]=result[1]
 
-        RankedKeys =  sorted(final_dict.items(), key=operator.itemgetter(1))
+        RankedKeys =  sorted(final_dict.items(), key=operator.itemgetter(1),reverse=True)
 
         return [final_dict,RankedKeys]
         

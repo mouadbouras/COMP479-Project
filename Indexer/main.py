@@ -13,7 +13,7 @@ def demo(index,files) :
         #DO SOMETHING WITH THE QUERY HERE
         #Example : 
 
-        result = Ranker.exec_query("Alumni alumni", index, files) 
+        result = Ranker.exec_query(query, index, files) 
 
         #************************************************************
         

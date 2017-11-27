@@ -171,11 +171,17 @@ class Tools(object):
             with io.open("../Dumps/" + filename, "r", encoding="utf-8") as fp:
                 data = fp.read()    
             soup = BeautifulSoup(data, "xml")
-            documents = soup.find_all("document")
-            for document in documents:
-                id = int(document["id"])
-                if int(id) == int(docId) : 
-                    return document.get_text()
+
+            # documents = soup.find_all("document")
+            # for document in documents:
+            #     id = int(document["id"])
+            #     if int(id) == int(docId) : 
+            #         return document.get_text()
+
+            document = soup.find("document", id=docId)
+            if document is not None : 
+                return document.get_text()
+
         return ""
                     
     def getDocCount (files):
@@ -200,9 +206,9 @@ class Tools(object):
     def tf_idf(term,docId,invertedIndex , files ) : 
         tf = Tools.getTermFrequency(term, docId, files)
         if tf == 0 : tf = 1
-        else : tf = 1 + log(Tools.getTermFrequency(term, docId, files)) 
+        else : tf = 1 + log(tf) 
         idf = log (Tools.getDocFrequency(term, invertedIndex, files))
-        return tf*idf
+        return round(tf*idf,2)
 
     def loadDictionary(filename):
         with open("../"  +filename) as f:
