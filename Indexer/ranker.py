@@ -1,9 +1,7 @@
 import json
 import sys
-# sys.path.append('..')
 import operator
 
-import nltk
 from afinn import Afinn
 
 from Indexer import Indexer
@@ -17,11 +15,15 @@ from operator import itemgetter
 
 class Ranker(object):
 
+    def do_ranking(query, result, files):
+        rankedresults = Ranker.rank_by_sentiment(query, result[0], files)
+        return rankedresults
+
     def open_json(index_file):
         data = Tools.loadDictionary(index_file)
         return data
 
-    # rank by sentiment
+    # rank by sentiment taking query, dict{docId, tf-idf}, files
     # if sentiment(query) >= 0 : rank docs from positive to negative
     # else : rank docs from negative to positive
     def rank_by_sentiment(query, docweights, files):
@@ -48,21 +50,12 @@ class Ranker(object):
                 termweights[term] = Tools.tf_idf(term, docId, index, files)
         sortedweights = OrderedDict(sorted(termweights.values))
         itemcnt = 0
+        # move to calling function
         for k, v in sortedweights.items():
             if itemcnt >= topx:
                 sortedweights.pop(k)
             itemcnt += 1
         return sortedweights
-
-    # can use Tools.sentiment(query) instead
-    def query_sentiment(query):
-        afinn = Afinn()
-        querytokens = Tokenizer.tokenize(query)
-        sentiment = 0
-        for token in querytokens:
-            sentiment += afinn.score(token)
-        return sentiment
-
 
     #returns dictionary of {term : [doclist]} for each query term 
     def get_query_docs(query, index):
@@ -87,8 +80,6 @@ class Ranker(object):
                 tmp.append(Tools.tf_idf(term,doc,index , files ))
                 # ranking[term].append(tmp)--> per term
                 ranking.append(tmp)
-                
-
         return ranking 
     
     #this function executes the query and returns an UNORDERD dictionary {docid : grade, docid : grade, docid : grade } 
