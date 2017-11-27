@@ -23,6 +23,7 @@ def demo(index,files, topx) :
         #PRINT RESULTS HERE
         #Example : 
         
+        print("Ranked Results : ")
         print(resultIDs)
 
         #************************************************************
@@ -32,7 +33,7 @@ def demo(index,files, topx) :
 #REQUIRED INITIAL VARAIABLES : 
 
 index = Ranker.open_json("FinalDictionary.json")
-files = ["1.txt","2.txt"]
+files = ["1.txt","2.txt"] #<=========  has to contain the list of documents you want to index [corpus]
 topx = 50
 
 #************************************************************
@@ -46,6 +47,14 @@ demo(index,files, topx)
 #************************************************************
 
 
+#************************************************************
+#BUILD INDEX : 
+
+#to build the index uncomment the following line 
+
+# index_files(files, True)
+
+#************************************************************
 
 
 

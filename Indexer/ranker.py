@@ -48,7 +48,7 @@ class Ranker(object):
         return ordereddocs
 
     def rank_by_sentiment(query, query_result, files):
-        print(query_result)
+        # print(query_result)
         pos = []
         neg = []
         querysentiment = Tools.sentiment(query)
