@@ -16,7 +16,8 @@ def demo(index,files) :
         result = Ranker.exec_query(query, index, files) 
 
         #************************************************************
-        
+        # Call ranking class to organize results
+        resultIDs = Ranker.do_ranking(query, result, files)
 
         #************************************************************
         #PRINT RESULTS HERE
