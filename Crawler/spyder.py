@@ -15,12 +15,13 @@ class Spyder(scrapy.Spider):
     name = "Spyder"
     start_urls = ["http://csu.qc.ca/content/student-groups-associations"]
 
-    def __init__(self, crawlmax=20, docID=1, corpusID=1, corpusMAX=10):
+    def __init__(self, crawlmax=20, docID=1, corpusID=1, corpusmax=10, bytelimit=100000):
+        self.BYTELIMIT = int(bytelimit)
         self.COUNT = 0;
         self.MAX = int(crawlmax)
         self.ID = int(docID)
         self.CORPUS = int(corpusID)
-        self.CORPUSMAX = int(corpusMAX)
+        self.CORPUSMAX = int(corpusmax)
         self.URLS = [
             "http://cufa.net/",
             "http://www.cupfa.org/",
@@ -29,10 +30,7 @@ class Spyder(scrapy.Spider):
 
         dispatcher.connect(self.spider_closed, signals.spider_closed)
 
-    # def start_requests(self):
-    #     for url in urls:
-    #         yield scrapy.Request(url=url, callback=self.parse)
-
+# This is the method that gets called and automatically run with scrapy
     def parse(self, response):
         h = html2text.HTML2Text()
         hxs = Selector(response)
@@ -41,15 +39,20 @@ class Spyder(scrapy.Spider):
         title[0] = h.handle(title[0])
         title[0] = title[0].strip("\r\n")
 
-        # if(response.status != 200):
-        #     self.MAX += 1
+        # These checks are here because if a page has a 404 or "Page not found" in the title which is concordia.ca's 404 page
+        # (but returns a 200 code) we want to increase the max because those sites won't get crawled.
+        if(response.status != 200):
+            self.MAX += 1
+            return
+        if(title[0] == "Page not found"):
+            self.MAX += 1
 
         if(title[0] != "Page not found"):
             if(self.CORPUS < self.CORPUSMAX):
                 fileName = "../Dumps/"+str(self.CORPUS) + ".txt"
                 if(os.path.exists(fileName)):
                     filesize = os.stat(fileName).st_size
-                    if(filesize > 50000):
+                    if(filesize > self.BYTELIMIT):
                         with io.open(fileName, "a", encoding="utf-8") as f:
                             f.write("</documents>")
                         if(self.CORPUS < self.CORPUSMAX):
@@ -85,13 +88,11 @@ class Spyder(scrapy.Spider):
 
                 for url in urls:
                     if(url not in self.URLS):
-                        if(len(self.URLS) < self.MAX - 1):
+                        if(len(self.URLS) < self.MAX):
                             if("http" not in url and "mailto" not in url):
                                 url = response.url + url
                                 if("concordia.ca" in url or "cufa.net" in url or "cupfa.org" in url):
                                     self.URLS.append(url)
-                                    print("THIS IS THE URL: " + url + "\n");
-
 
                 for url in self.URLS:
                     yield response.follow(url, self.parse)
