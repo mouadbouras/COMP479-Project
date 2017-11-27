@@ -15,7 +15,7 @@ class Spyder(scrapy.Spider):
     name = "Spyder"
     start_urls = ["http://csu.qc.ca/content/student-groups-associations"]
 
-    def __init__(self, crawlmax=10, docID=1, corpusID=1, corpusMAX=1000):
+    def __init__(self, crawlmax=20, docID=1, corpusID=1, corpusMAX=10):
         self.COUNT = 0;
         self.MAX = int(crawlmax)
         self.ID = int(docID)
